@@ -1,0 +1,39 @@
+{
+    "name": "tomkyle/binning",
+    "description": "Determine optimal number of bins 𝒌 for histogram creation and optimal bin width 𝒉 using various statistical methods.",
+    "keywords": [
+        "binning",
+        "histogram",
+        "statistics",
+        "data analysis",
+        "sturges-rule",
+        "freedman-diaconis",
+        "scotts-rule",
+        "doanes-rule",
+        "rice-rule",
+        "terrell-scotts-rule",
+        "square-root",
+        "histogram-binning"
+    ],
+    "require": {
+        "php": "^8.3",
+        "markrogoyski/math-php": "^2.11"
+    },
+    "autoload": {
+        "psr-4": {
+            "tomkyle\\Binning\\": "src/"
+        }
+    },
+    "autoload-dev": {
+      "psr-4": {
+        "tests\\": "tests/"
+      }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.0",
+        "tomkyle/find-run-test": "^1.0",
+        "friendsofphp/php-cs-fixer": "^3.67",
+        "rector/rector": "^2.1",
+        "phpstan/phpstan": "^2.1"
+    }
+}
