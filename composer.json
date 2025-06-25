@@ -1,6 +1,7 @@
 {
     "name": "tomkyle/binning",
     "description": "Determine optimal number of bins 𝒌 for histogram creation and optimal bin width 𝒉 using various statistical methods.",
+    "license": "MIT",
     "keywords": [
         "binning",
         "histogram",
