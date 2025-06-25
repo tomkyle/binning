@@ -107,7 +107,7 @@ The result array contains additional information like the data range 𝑹, the i
 
 Simple rule using the square root of the sample size.
 
-$k = \left \lceil \sqrt{n} \; \right \rceil $
+$ k = \left \lceil \sqrt{n} \; \right \rceil $
 
 ```php
 $k = BinSelection::squareRoot($data);
@@ -119,7 +119,7 @@ $k = BinSelection::squareRoot($data);
 
 Based on the logarithm of the sample size. Good for normal distributions.
 
-$k = 1 + \left \lceil \; \log_2(n) \; \right \rceil$
+$ k = 1 + \left \lceil \; \log_2(n) \; \right \rceil $
 
 ```php
 $k = BinSelection::sturges($data);
@@ -131,7 +131,7 @@ $k = BinSelection::sturges($data);
 
 Improvement of *Sturges*’ rule that accounts for data skewness.
 
-$k = 1 + \left\lceil \; \log_2(n) + \log_2\left(1 + \frac{|g_1|}{\sigma_{g_1}}\right) \; \right \rceil$
+$ k = 1 + \left\lceil \; \log_2(n) + \log_2\left(1 + \frac{|g_1|}{\sigma_{g_1}}\right) \; \right \rceil $
 
 ```php
 // Using sample-based calculation (default)
@@ -147,11 +147,11 @@ $k = BinSelection::doane($data, population: true);
 
 Based on the standard deviation and sample size. Good for continuous data.
 
-$h = \frac{3.49\,\hat{\sigma}}{\sqrt[3]{n}} $ 
+$ h = \frac{3.49\,\hat{\sigma}}{\sqrt[3]{n}} $ 
 
-$R = \max_i x_i - \min_i x_i$
+$ R = \max_i x_i - \min_i x_i $
 
-$k = \left \lceil \frac{R}{h} \right \rceil$
+$ k = \left \lceil \frac{R}{h} \right \rceil $
 
 The result is an array with keys `width`, `bins`, `range`, and `stddev`. Map them to variables like so:
 
@@ -165,13 +165,13 @@ list($h, $k, $R, stddev) = BinSelection::scott($data);
 
 Based on the interquartile range (IQR). Robust against outliers.
 
-$ IQR = Q_3 - Q_1$
+$ IQR = Q_3 - Q_1 $
 
-$h = 2 \times \frac{\mathrm{IQR}}{\sqrt[3]{n}}$
+$ h = 2 \times \frac{\mathrm{IQR}}{\sqrt[3]{n}} $
 
-$R = \text{max}_i x_i - \text{min}_i x_i$
+$ R = \text{max}_i x_i - \text{min}_i x_i $
 
-$k = \left \lceil \frac{R}{h} \right \rceil$
+$ k = \left \lceil \frac{R}{h} \right \rceil $
 
 The result is an array with keys `width`, `bins`, `range`, and `IQR`. Map them to variables like so:
 
@@ -185,7 +185,7 @@ list($h, $k, $R, $IQR) = BinSelection::freedmanDiaconis($data);
 
 Uses the cube root of the sample size, generally provides more bins than *Sturges*. This is the original *Rice Rule*:
 
-$k = \left \lceil \; \sqrt[3]{2n} \enspace \right \rceil = \left \lceil \; (2n)^{1/3} \; \right \rceil$
+$ k = \left \lceil \; \sqrt[3]{2n} \enspace \right \rceil = \left \lceil \; (2n)^{1/3} \; \right \rceil $
 
 ```php
 $k = BinSelection::terrellScott($data);
@@ -197,7 +197,7 @@ $k = BinSelection::terrellScott($data);
 
 Uses the cube root of the sample size, generally provides more bins than *Sturges*. Formula as taught by David M. Lane at Rice University. — **N.B.** This *Rice Rule* seems to be not the original. In fact, *Terrell-Scott’s* (1985) seems to be. Also note that both variants can yield different results under certain circumstances. This Lane’s variant from the early 2000s is however more commonly cited:
 
-$k = 2 \times \left \lceil \; \sqrt[3]{n} \enspace \right \rceil =  2 \times \left \lceil \; n^{1/3} \; \right \rceil$
+$ k = 2 \times \left \lceil \; \sqrt[3]{n} \enspace \right \rceil =  2 \times \left \lceil \; n^{1/3} \; \right \rceil $
 
 ```php
 $k = BinSelection::rice($data);
