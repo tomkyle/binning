@@ -5,6 +5,7 @@
     "keywords": [
         "binning",
         "histogram",
+        "distributions",
         "statistics",
         "data analysis",
         "sturges-rule",
@@ -14,7 +15,9 @@
         "rice-rule",
         "terrell-scotts-rule",
         "square-root",
-        "histogram-binning"
+        "histogram-binning",
+        "math",
+        "php-math"
     ],
     "require": {
         "php": "^8.3",
