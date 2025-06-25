@@ -1,6 +1,11 @@
 
 # tomkyle/binning
 
+[![Packagist](https://img.shields.io/packagist/v/tomkyle/binning.svg?style=flat)](https://packagist.org/packages/tomkyle/binning )
+[![PHP version](https://img.shields.io/packagist/php-v/tomkyle/binning.svg)](https://packagist.org/packages/tomkyle/binning )
+[![PHP Composer](https://github.com/tomkyle/binning/actions/workflows/php.yml/badge.svg)](https://github.com/tomkyle/binning/actions/workflows/php.yml) 
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
+
 **Determine the optimal 𝒌 number of bins for histogram creation and optimal bin width 𝒉 using various statistical methods. Its unified interface includes implementations of well-known binning rules such as:**
 
 - Square Root Rule (1892)
