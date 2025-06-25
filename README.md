@@ -1,8 +1,8 @@
 
 # tomkyle/binning
 
-[![Packagist](https://img.shields.io/packagist/v/tomkyle/binning.svg?style=flat)](https://packagist.org/packages/tomkyle/binning )
-[![PHP version](https://img.shields.io/packagist/php-v/tomkyle/binning.svg)](https://packagist.org/packages/tomkyle/binning )
+[![Packagist](https://img.shields.io/packagist/v/tomkyle/binning.svg?style=flat)](https://packagist.org/packages/tomkyle/binning)
+[![PHP version](https://img.shields.io/packagist/php-v/tomkyle/binning.svg)](https://packagist.org/packages/tomkyle/binning)
 [![PHP Composer](https://github.com/tomkyle/binning/actions/workflows/php.yml/badge.svg)](https://github.com/tomkyle/binning/actions/workflows/php.yml) 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
 
@@ -209,26 +209,26 @@ use tomkyle\Binning\BinSelection;
 
 // Generate sample data (e.g., from measurements)
 $measurements = [
-    12.3, 14.1, 13.8, 15.2, 12.9, 14.7, 13.1, 15.8, 12.5, 14.3,
-    13.6, 15.1, 12.8, 14.9, 13.4, 15.5, 12.7, 14.2, 13.9, 15.0
+	12.3, 14.1, 13.8, 15.2, 12.9, 14.7, 13.1, 15.8, 12.5, 14.3,
+	13.6, 15.1, 12.8, 14.9, 13.4, 15.5, 12.7, 14.2, 13.9, 15.0
 ];
 
 echo "Data points: " . count($measurements) . "\n\n";
 
 // Compare different methods
 $methods = [
-    'Sturges’s Rule' => BinSelection::STURGES,
-    'Rice University Rule' => BinSelection::RICE,
-    'Terrell-Scott’s Rule' => BinSelection::TERRELL_SCOTT,
-    'Square Root Rule' => BinSelection::SQUARE_ROOT,
-    'Doane’s Rule' => BinSelection::DOANE,
-    'Scott’s Rule' => BinSelection::SCOTT,
-    'Freedman-Diaconis Rule' => BinSelection::FREEDMAN_DIACONIS,
+	'Sturges’s Rule' => BinSelection::STURGES,
+	'Rice University Rule' => BinSelection::RICE,
+	'Terrell-Scott’s Rule' => BinSelection::TERRELL_SCOTT,
+	'Square Root Rule' => BinSelection::SQUARE_ROOT,
+	'Doane’s Rule' => BinSelection::DOANE,
+	'Scott’s Rule' => BinSelection::SCOTT,
+	'Freedman-Diaconis Rule' => BinSelection::FREEDMAN_DIACONIS,
 ];
 
 foreach ($methods as $name => $method) {
-    $bins = BinSelection::suggestBins($measurements, $method);
-    echo sprintf("%-18s: %2d bins\n", $name, $bins);
+	$bins = BinSelection::suggestBins($measurements, $method);
+	echo sprintf("%-18s: %2d bins\n", $name, $bins);
 }
 ```
 
@@ -238,19 +238,19 @@ All methods will throw `InvalidArgumentException` for invalid inputs:
 
 ```php
 try {
-    // This will throw an exception
-    $bins = BinSelection::sturges([]);
+	// This will throw an exception
+	$bins = BinSelection::sturges([]);
 } catch (InvalidArgumentException $e) {
-    echo "Error: " . $e->getMessage();
-    // Output: "Dataset cannot be empty to apply the Sturges' Rule."
+	echo "Error: " . $e->getMessage();
+	// Output: "Dataset cannot be empty to apply the Sturges' Rule."
 }
 
 try {
-    // This will throw an exception  
-    $bins = BinSelection::suggestBins($data, 'invalid-method');
+	// This will throw an exception  
+	$bins = BinSelection::suggestBins($data, 'invalid-method');
 } catch (InvalidArgumentException $e) {
-    echo "Error: " . $e->getMessage();
-    // Output: "Unknown binning method: invalid-method"
+	echo "Error: " . $e->getMessage();
+	// Output: "Unknown binning method: invalid-method"
 }
 ```
 
