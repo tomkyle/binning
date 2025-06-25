@@ -16,6 +16,10 @@
 - Terrell-Scott’s Rule (1985)
 - Rice University Rule
 
+## Requirements
+
+This library requires PHP 8.3 or newer. Support of older versions like [markrogoyski/math-php](https://github.com/markrogoyski/math-php) provides for PHP 7.2+ is not planned.
+
 ## Installation
 
 ```bash
