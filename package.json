@@ -8,11 +8,15 @@
     "watch": "npm-run-all -p watch:*",
     "watch:src": "chokidar \"src/**/*.php\" -c \"./vendor/bin/frt {path} && npm run phpstan {path} && npm run rector {path}\"",
     "watch:tests": "chokidar \"tests/**/*.php\" -c \"npm run phpunit:short {path}\"",
+
     "phpstan": "./vendor/bin/phpstan --no-progress analyse",
-    "phpcs": "./vendor/bin/php-cs-fixer fix --verbose --diff --dry-run",
+
+    "phpcs": "npm run phpcs:apply -- --dry-run",
     "phpcs:apply": "./vendor/bin/php-cs-fixer fix --verbose --diff",
-    "rector": "./vendor/bin/rector process --dry-run",
+
+    "rector": "npm run rector:apply -- --dry-run",
     "rector:apply": "./vendor/bin/rector process",
+
     "phpunit": "./vendor/bin/phpunit --testdox",
     "phpunit:short": "npm run phpunit -- --no-coverage"
   },
