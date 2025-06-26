@@ -1,33 +1,44 @@
 <?php
 
 /**
- * This file is part of tomkyle/binning
+ * This file is part of tomkyle/binning.
  *
- * Methods for binning data into ranges, for histogram generation and statistical analysis.
+ * Determine optimal number of bins 𝒌 for histogram creation and optimal bin width 𝒉 using various statistical methods.
  */
 
 declare(strict_types=1);
 
 namespace tests\Unit;
 
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\TestCase;
 use tomkyle\Binning\BinSelection;
 
+/**
+ * @internal
+ */
 #[CoversClass(BinSelection::class)]
 class BinSelectionTest extends TestCase
 {
+    /**
+     * Tests that suggestBins works with all available binning methods.
+     *
+     * @param string $method The binning method constant to test
+     * @param array<int> $data The test data array
+     */
     #[Test]
     #[DataProvider('suggestBinsMethodProvider')]
     public function suggestBinsWorksWithAllMethods(string $method, array $data): void
     {
         $result = BinSelection::suggestBins($data, $method);
-        $this->assertIsInt($result);
         $this->assertGreaterThan(0, $result);
     }
 
+    /**
+     * @return array<string, array{string, array<int>}>
+     */
     public static function suggestBinsMethodProvider(): array
     {
         $data = range(1, 20);
@@ -45,31 +56,37 @@ class BinSelectionTest extends TestCase
         ];
     }
 
-
-
+    /**
+     * Tests that suggestBinWidth works with all available methods that support width calculation.
+     *
+     * @param string $method The binning method constant to test
+     * @param array<int> $data The test data array
+     */
     #[Test]
     #[DataProvider('suggestBinWidthMethodProvider')]
     public function suggestBinWidthWorksWithAllMethods(string $method, array $data): void
     {
         $result = BinSelection::suggestBinWidth($data, $method);
-        $this->assertIsFloat($result);
+        $this->assertGreaterThan(0, $result);
     }
 
+    /**
+     * @return array<string, array{string, array<int>}>
+     */
     public static function suggestBinWidthMethodProvider(): array
     {
         $data = range(1, 20);
 
         return [
-            "default (no method specified)" => [BinSelection::DEFAULT, $data],
+            'default (no method specified)' => [BinSelection::DEFAULT, $data],
             BinSelection::FREEDMAN_DIACONIS => [BinSelection::FREEDMAN_DIACONIS, $data],
             BinSelection::SCOTT => [BinSelection::SCOTT, $data],
         ];
     }
 
-
-
-
-
+    /**
+     * Tests that suggestBins throws exception for invalid method.
+     */
     #[Test]
     public function suggestBinsThrowsExceptionForInvalidMethod(): void
     {
@@ -79,7 +96,9 @@ class BinSelectionTest extends TestCase
         BinSelection::suggestBins([1, 2, 3], 'invalid');
     }
 
-
+    /**
+     * Tests that suggestBins uses Freedman-Diaconis as default method.
+     */
     #[Test]
     public function suggestBinsUsesFreedmanDiaconisToByDefault(): void
     {
@@ -91,22 +110,27 @@ class BinSelectionTest extends TestCase
         $this->assertEquals($freedmanDiaconisResult, $defaultResult);
     }
 
-
-
     // ===================================================
     // Test methods for Sturges' Rule
     // ===================================================
 
-
+    /**
+     * Tests Sturges' rule returns expected bin counts for various dataset sizes.
+     *
+     * @param array<int|float> $data Test dataset
+     * @param int $expectedBins Expected number of bins
+     */
     #[Test]
     #[DataProvider('sturgesDataProvider')]
     public function sturgesReturnsExpectedValues(array $data, int $expectedBins): void
     {
         $result = BinSelection::sturges($data);
-        $this->assertIsInt($result);
         $this->assertEquals($expectedBins, $result);
     }
 
+    /**
+     * @return array<string, array{array<int|float>, int}>
+     */
     public static function sturgesDataProvider(): array
     {
         return [
@@ -123,6 +147,9 @@ class BinSelectionTest extends TestCase
         ];
     }
 
+    /**
+     * Tests that Sturges' rule throws exception for empty dataset.
+     */
     #[Test]
     public function sturgesThrowsExceptionForEmptyDataset(): void
     {
@@ -131,13 +158,16 @@ class BinSelectionTest extends TestCase
         BinSelection::sturges([]);
     }
 
-
-
     // ===================================================
     // Test methods for Doane's Rule
     // ===================================================
 
-
+    /**
+     * Tests Doane's rule with sample-based calculation returns expected minimum bins.
+     *
+     * @param array<int|float> $data Test dataset
+     * @param int $expectedMinBins Expected minimum number of bins
+     */
     #[Test]
     #[DataProvider('doaneDataProvider')]
     public function doaneReturnsExpectedValuesForSamples(array $data, int $expectedMinBins): void
@@ -148,11 +178,16 @@ class BinSelectionTest extends TestCase
         // it returns at least as many bins as Sturges
         $sturgesResult = BinSelection::sturges($data);
 
-        $this->assertIsInt($result);
         $this->assertGreaterThanOrEqual($expectedMinBins, $result);
         $this->assertGreaterThanOrEqual($sturgesResult, $result);
     }
 
+    /**
+     * Tests Doane's rule with population-based calculation returns expected minimum bins.
+     *
+     * @param array<int|float> $data Test dataset
+     * @param int $expectedMinBins Expected minimum number of bins
+     */
     #[Test]
     #[DataProvider('doaneDataProvider')]
     public function doaneReturnsExpectedValuesForPopulation(array $data, int $expectedMinBins): void
@@ -162,11 +197,13 @@ class BinSelectionTest extends TestCase
         // Doane's rule adjusts for skewness, so we test that it returns at least as many bins as Sturges
         $sturgesResult = BinSelection::sturges($data);
 
-        $this->assertIsInt($result);
         $this->assertGreaterThanOrEqual($expectedMinBins, $result);
         $this->assertGreaterThanOrEqual($sturgesResult, $result);
     }
 
+    /**
+     * @return array<string, array{array<int|float>, int}>
+     */
     public static function doaneDataProvider(): array
     {
         return [
@@ -178,15 +215,24 @@ class BinSelectionTest extends TestCase
         ];
     }
 
+    /**
+     * Tests that Doane's rule throws exception for datasets too small.
+     */
     #[Test]
     public function doaneThrowsExceptionForTooSmallDataset(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Dataset must contain at least 3 numbers to apply the Doane's Rule.");
 
-        BinSelection::doane([1,2]);
+        BinSelection::doane([1, 2]);
     }
 
+    /**
+     * Tests that Doane's rule adjusts for skewness by suggesting more bins for skewed data.
+     *
+     * @param array<int> $symmetricData Symmetric test dataset
+     * @param array<int> $skewedData Skewed test dataset
+     */
     #[Test]
     #[DataProvider('skewnessAdjustmentDataProvider')]
     public function doaneAdjustsForSkewness(array $symmetricData, array $skewedData): void
@@ -198,6 +244,9 @@ class BinSelectionTest extends TestCase
         $this->assertGreaterThanOrEqual($symmetricBins, $skewedBins);
     }
 
+    /**
+     * @return array<string, array{array<int>, array<int>}>
+     */
     public static function skewnessAdjustmentDataProvider(): array
     {
         return [
@@ -212,20 +261,27 @@ class BinSelectionTest extends TestCase
         ];
     }
 
-
     // ===================================================
     // Test methods for Rice Rule
     // ===================================================
 
+    /**
+     * Tests that Rice rule returns expected bin counts for various dataset sizes.
+     *
+     * @param array<int|float> $data Test dataset
+     * @param int $expectedBins Expected number of bins
+     */
     #[Test]
     #[DataProvider('riceDataProvider')]
     public function riceReturnsExpectedValues(array $data, int $expectedBins): void
     {
         $result = BinSelection::rice($data);
-        $this->assertIsInt($result);
         $this->assertEquals($expectedBins, $result);
     }
 
+    /**
+     * @return array<string, array{array<int|float>, int}>
+     */
     public static function riceDataProvider(): array
     {
         return [
@@ -239,8 +295,9 @@ class BinSelectionTest extends TestCase
         ];
     }
 
-
-
+    /**
+     * Tests that Rice rule throws exception for empty dataset.
+     */
     #[Test]
     public function riceThrowsExceptionForEmptyDataset(): void
     {
@@ -249,21 +306,27 @@ class BinSelectionTest extends TestCase
         BinSelection::rice([]);
     }
 
-
-
     // ===================================================
     // Test methods for Terrell-Scrott Rule
     // ===================================================
 
+    /**
+     * Tests that Terrell-Scott rule returns expected bin counts for various dataset sizes.
+     *
+     * @param array<int|float> $data Test dataset
+     * @param int $expectedBins Expected number of bins
+     */
     #[Test]
     #[DataProvider('terrellScottDataProvider')]
     public function terrellScottReturnsExpectedValues(array $data, int $expectedBins): void
     {
         $result = BinSelection::terrellScott($data);
-        $this->assertIsInt($result);
         $this->assertEquals($expectedBins, $result);
     }
 
+    /**
+     * @return array<string, array{array<int|float>, int}>
+     */
     public static function terrellScottDataProvider(): array
     {
         return [
@@ -277,8 +340,9 @@ class BinSelectionTest extends TestCase
         ];
     }
 
-
-
+    /**
+     * Tests that Terrell-Scott rule throws exception for empty dataset.
+     */
     #[Test]
     public function terrellScottThrowsExceptionForEmptyDataset(): void
     {
@@ -287,22 +351,27 @@ class BinSelectionTest extends TestCase
         BinSelection::terrellScott([]);
     }
 
-
-
     // ===================================================
     // Test methods for Square Root Rule
     // ===================================================
 
-
+    /**
+     * Tests that Square Root rule returns expected bin counts for various dataset sizes.
+     *
+     * @param array<int|float> $data Test dataset
+     * @param int $expectedBins Expected number of bins
+     */
     #[Test]
     #[DataProvider('squareRootDataProvider')]
     public function squareRootReturnsExpectedValues(array $data, int $expectedBins): void
     {
         $result = BinSelection::squareRoot($data);
-        $this->assertIsInt($result);
         $this->assertEquals($expectedBins, $result);
     }
 
+    /**
+     * @return array<string, array{array<int|float>, int}>
+     */
     public static function squareRootDataProvider(): array
     {
         return [
@@ -317,22 +386,28 @@ class BinSelectionTest extends TestCase
         ];
     }
 
+    /**
+     * Tests that Square Root rule throws exception for empty dataset.
+     */
     #[Test]
     public function squareRootThrowsExceptionForEmptyDataset(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Dataset cannot be empty to apply the Square Root Rule.");
+        $this->expectExceptionMessage('Dataset cannot be empty to apply the Square Root Rule.');
 
         BinSelection::squareRoot([]);
     }
-
-
 
     // ===================================================
     // Test methods for Scott's Rule
     // ===================================================
 
-
+    /**
+     * Tests that Scott's rule returns expected minimum bin counts for various dataset types.
+     *
+     * @param array<int|float> $data Test dataset
+     * @param int $expectedMinBins Expected minimum number of bins
+     */
     #[Test]
     #[DataProvider('scottDataProvider')]
     public function scottReturnsExpectedValues(array $data, int $expectedMinBins): void
@@ -351,6 +426,9 @@ class BinSelectionTest extends TestCase
         $this->assertGreaterThanOrEqual($expectedMinBins, $k);
     }
 
+    /**
+     * @return array<string, array{array<int|float>, int}>
+     */
     public static function scottDataProvider(): array
     {
         return [
@@ -365,6 +443,9 @@ class BinSelectionTest extends TestCase
         ];
     }
 
+    /**
+     * Tests that Scott's rule throws exception for empty dataset.
+     */
     #[Test]
     public function scottThrowsExceptionForEmptyDataset(): void
     {
@@ -374,13 +455,16 @@ class BinSelectionTest extends TestCase
         BinSelection::scott([]);
     }
 
-
-
     // ===================================================
     // Test methods for Freedman-Diaconis Rule
     // ===================================================
 
-
+    /**
+     * Tests that Freedman-Diaconis rule returns expected minimum bin counts for various dataset types.
+     *
+     * @param array<int|float> $data Test dataset
+     * @param int $expectedMinBins Expected minimum number of bins
+     */
     #[Test]
     #[DataProvider('freedmanDiaconisDataProvider')]
     public function freedmanDiaconisReturnsExpectedValues(array $data, int $expectedMinBins): void
@@ -398,6 +482,9 @@ class BinSelectionTest extends TestCase
         $this->assertGreaterThanOrEqual($expectedMinBins, $k);
     }
 
+    /**
+     * @return array<string, array{array<int|float>, int}>
+     */
     public static function freedmanDiaconisDataProvider(): array
     {
         return [
@@ -413,15 +500,15 @@ class BinSelectionTest extends TestCase
         ];
     }
 
+    /**
+     * Tests that Freedman-Diaconis rule throws exception for empty dataset.
+     */
     #[Test]
     public function freedmanDiaconisThrowsExceptionForEmptyDataset(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Dataset cannot be empty to apply the Freedman-Diaconis Rule.");
+        $this->expectExceptionMessage('Dataset cannot be empty to apply the Freedman-Diaconis Rule.');
 
         BinSelection::freedmanDiaconis([]);
     }
-
-
-
 }
