@@ -4,7 +4,7 @@
 [![Composer Version](https://img.shields.io/packagist/v/tomkyle/binning)](https://packagist.org/packages/tomkyle/binning )
 [![PHP version](https://img.shields.io/packagist/php-v/tomkyle/binning)](https://packagist.org/packages/tomkyle/binning )
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/tomkyle/binning/php.yml)](https://github.com/tomkyle/binning/actions/workflows/php.yml)
-[![Packagist License](https://img.shields.io/packagist/l/tomkyle/binning)](LICENSE)
+[![Packagist License](https://img.shields.io/packagist/l/tomkyle/binning)](LICENSE.txt)
 
 **Determine the optimal 𝒌 number of bins for histogram creation and optimal bin width 𝒉 using various statistical methods. Its unified interface includes implementations of well-known binning rules such as:**
 
