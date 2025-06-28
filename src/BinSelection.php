@@ -5,7 +5,7 @@
  *
  * Determine optimal number of bins 𝒌 for histogram creation and optimal bin width 𝒉 using various statistical methods.
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 

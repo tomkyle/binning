@@ -1,10 +1,10 @@
 
 # tomkyle/binning
 
-[![Packagist](https://img.shields.io/packagist/v/tomkyle/binning.svg?style=flat)](https://packagist.org/packages/tomkyle/binning)
-[![PHP version](https://img.shields.io/packagist/php-v/tomkyle/binning.svg)](https://packagist.org/packages/tomkyle/binning)
-[![PHP Composer](https://github.com/tomkyle/binning/actions/workflows/php.yml/badge.svg)](https://github.com/tomkyle/binning/actions/workflows/php.yml) 
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
+[![Composer Version](https://img.shields.io/packagist/v/tomkyle/binning)](https://packagist.org/packages/tomkyle/binning )
+[![PHP version](https://img.shields.io/packagist/php-v/tomkyle/binning)](https://packagist.org/packages/tomkyle/binning )
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/tomkyle/binning/php.yml)](https://github.com/tomkyle/binning/actions/workflows/php.yml)
+[![Packagist License](https://img.shields.io/packagist/l/tomkyle/binning)](LICENSE)
 
 **Determine the optimal 𝒌 number of bins for histogram creation and optimal bin width 𝒉 using various statistical methods. Its unified interface includes implementations of well-known binning rules such as:**
 
@@ -123,7 +123,7 @@ The result array contains additional information like the data range 𝑹, the i
 Simple rule using the square root of the sample size.
 
 $$
-k = \left \lceil \sqrt{n} \; \right \rceil 
+k = \left \lceil \sqrt{n} \ \right \rceil 
 $$
 
 ```php
@@ -141,7 +141,7 @@ $k = BinSelection::squareRoot($data);
 Based on the logarithm of the sample size. Good for normal distributions.
 
 $$
-k = 1 + \left \lceil \; \log_2(n) \; \right \rceil
+k = 1 + \left \lceil \ \log_2(n) \  \right \rceil
 $$
 
 ```php
@@ -159,7 +159,7 @@ $k = BinSelection::sturges($data);
 Improvement of *Sturges*’ rule that accounts for data skewness.
 
 $$
-k = 1 + \left\lceil \; \log_2(n) + \log_2\left(1 + \frac{|g_1|}{\sigma_{g_1}}\right) \; \right \rceil 
+k = 1 + \left\lceil \  \log_2(n) + \log_2\left(1 + \frac{|g_1|}{\sigma_{g_1}}\right) \  \right \rceil 
 $$
 
 ```php
@@ -189,7 +189,7 @@ R = \max_i x_i - \min_i x_i
 $$
 
 $$
-k = \left \lceil \frac{R}{h} \right \rceil 
+k = \left \lceil \ \frac{R}{h} \ \right \rceil 
 $$
 
 The result is an array with keys `width`, `bins`, `range`, and `stddev`. Map them to variables like so:
@@ -241,7 +241,7 @@ list($h, $k, $R, $IQR) = BinSelection::freedmanDiaconis($data);
 Uses the cube root of the sample size, generally provides more bins than *Sturges*. This is the original *Rice Rule*:
 
 $$
-k = \left \lceil \; \sqrt[3]{2n} \enspace \right \rceil = \left \lceil \; (2n)^{1/3} \; \right \rceil 
+k = \left \lceil \  \sqrt[3]{2n} \enspace \right \rceil = \left \lceil \  (2n)^{1/3} \  \right \rceil 
 $$
 
 ```php
@@ -259,7 +259,7 @@ $k = BinSelection::terrellScott($data);
 Uses the cube root of the sample size, generally provides more bins than *Sturges*. Formula as taught by David M. Lane at Rice University. — **N.B.** This *Rice Rule* seems to be not the original. In fact, *Terrell-Scott’s* (1985) seems to be. Also note that both variants can yield different results under certain circumstances. This Lane’s variant from the early 2000s is however more commonly cited:
 
 $$
-k = 2 \times \left \lceil \; \sqrt[3]{n} \enspace \right \rceil =  2 \times \left \lceil \; n^{1/3} \; \right \rceil 
+k = 2 \times \left \lceil \  \sqrt[3]{n} \enspace \right \rceil =  2 \times \left \lceil \  n^{1/3} \  \right \rceil 
 $$
 
 ```php
