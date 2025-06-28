@@ -3,7 +3,11 @@ $header = <<<EOF
 This file is part of {{name}}
 
 {{description}}
+
+For the full copyright and license information, please view the LICENSE.txt
+file that was distributed with this source code.
 EOF;
+
 
 $info = json_decode(file_get_contents(__DIR__ . '/composer.json'), true);
 

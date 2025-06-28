@@ -1,9 +1,12 @@
 <?php
 
 /**
- * This file is part of tomkyle/binning.
+ * This file is part of tomkyle/binning
  *
  * Determine optimal number of bins 𝒌 for histogram creation and optimal bin width 𝒉 using various statistical methods.
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -25,8 +28,8 @@ class BinSelectionTest extends TestCase
     /**
      * Tests that suggestBins works with all available binning methods.
      *
-     * @param string $method The binning method constant to test
-     * @param array<int> $data The test data array
+     * @param string     $method The binning method constant to test
+     * @param array<int> $data   The test data array
      */
     #[Test]
     #[DataProvider('suggestBinsMethodProvider')]
@@ -59,8 +62,8 @@ class BinSelectionTest extends TestCase
     /**
      * Tests that suggestBinWidth works with all available methods that support width calculation.
      *
-     * @param string $method The binning method constant to test
-     * @param array<int> $data The test data array
+     * @param string     $method The binning method constant to test
+     * @param array<int> $data   The test data array
      */
     #[Test]
     #[DataProvider('suggestBinWidthMethodProvider')]
@@ -117,8 +120,8 @@ class BinSelectionTest extends TestCase
     /**
      * Tests Sturges' rule returns expected bin counts for various dataset sizes.
      *
-     * @param array<int|float> $data Test dataset
-     * @param int $expectedBins Expected number of bins
+     * @param array<float|int> $data         Test dataset
+     * @param int              $expectedBins Expected number of bins
      */
     #[Test]
     #[DataProvider('sturgesDataProvider')]
@@ -129,7 +132,7 @@ class BinSelectionTest extends TestCase
     }
 
     /**
-     * @return array<string, array{array<int|float>, int}>
+     * @return array<string, array{array<float|int>, int}>
      */
     public static function sturgesDataProvider(): array
     {
@@ -165,8 +168,8 @@ class BinSelectionTest extends TestCase
     /**
      * Tests Doane's rule with sample-based calculation returns expected minimum bins.
      *
-     * @param array<int|float> $data Test dataset
-     * @param int $expectedMinBins Expected minimum number of bins
+     * @param array<float|int> $data            Test dataset
+     * @param int              $expectedMinBins Expected minimum number of bins
      */
     #[Test]
     #[DataProvider('doaneDataProvider')]
@@ -185,8 +188,8 @@ class BinSelectionTest extends TestCase
     /**
      * Tests Doane's rule with population-based calculation returns expected minimum bins.
      *
-     * @param array<int|float> $data Test dataset
-     * @param int $expectedMinBins Expected minimum number of bins
+     * @param array<float|int> $data            Test dataset
+     * @param int              $expectedMinBins Expected minimum number of bins
      */
     #[Test]
     #[DataProvider('doaneDataProvider')]
@@ -202,7 +205,7 @@ class BinSelectionTest extends TestCase
     }
 
     /**
-     * @return array<string, array{array<int|float>, int}>
+     * @return array<string, array{array<float|int>, int}>
      */
     public static function doaneDataProvider(): array
     {
@@ -231,7 +234,7 @@ class BinSelectionTest extends TestCase
      * Tests that Doane's rule adjusts for skewness by suggesting more bins for skewed data.
      *
      * @param array<int> $symmetricData Symmetric test dataset
-     * @param array<int> $skewedData Skewed test dataset
+     * @param array<int> $skewedData    Skewed test dataset
      */
     #[Test]
     #[DataProvider('skewnessAdjustmentDataProvider')]
@@ -268,8 +271,8 @@ class BinSelectionTest extends TestCase
     /**
      * Tests that Rice rule returns expected bin counts for various dataset sizes.
      *
-     * @param array<int|float> $data Test dataset
-     * @param int $expectedBins Expected number of bins
+     * @param array<float|int> $data         Test dataset
+     * @param int              $expectedBins Expected number of bins
      */
     #[Test]
     #[DataProvider('riceDataProvider')]
@@ -280,7 +283,7 @@ class BinSelectionTest extends TestCase
     }
 
     /**
-     * @return array<string, array{array<int|float>, int}>
+     * @return array<string, array{array<float|int>, int}>
      */
     public static function riceDataProvider(): array
     {
@@ -313,8 +316,8 @@ class BinSelectionTest extends TestCase
     /**
      * Tests that Terrell-Scott rule returns expected bin counts for various dataset sizes.
      *
-     * @param array<int|float> $data Test dataset
-     * @param int $expectedBins Expected number of bins
+     * @param array<float|int> $data         Test dataset
+     * @param int              $expectedBins Expected number of bins
      */
     #[Test]
     #[DataProvider('terrellScottDataProvider')]
@@ -325,7 +328,7 @@ class BinSelectionTest extends TestCase
     }
 
     /**
-     * @return array<string, array{array<int|float>, int}>
+     * @return array<string, array{array<float|int>, int}>
      */
     public static function terrellScottDataProvider(): array
     {
@@ -358,8 +361,8 @@ class BinSelectionTest extends TestCase
     /**
      * Tests that Square Root rule returns expected bin counts for various dataset sizes.
      *
-     * @param array<int|float> $data Test dataset
-     * @param int $expectedBins Expected number of bins
+     * @param array<float|int> $data         Test dataset
+     * @param int              $expectedBins Expected number of bins
      */
     #[Test]
     #[DataProvider('squareRootDataProvider')]
@@ -370,7 +373,7 @@ class BinSelectionTest extends TestCase
     }
 
     /**
-     * @return array<string, array{array<int|float>, int}>
+     * @return array<string, array{array<float|int>, int}>
      */
     public static function squareRootDataProvider(): array
     {
@@ -405,8 +408,8 @@ class BinSelectionTest extends TestCase
     /**
      * Tests that Scott's rule returns expected minimum bin counts for various dataset types.
      *
-     * @param array<int|float> $data Test dataset
-     * @param int $expectedMinBins Expected minimum number of bins
+     * @param array<float|int> $data            Test dataset
+     * @param int              $expectedMinBins Expected minimum number of bins
      */
     #[Test]
     #[DataProvider('scottDataProvider')]
@@ -427,7 +430,7 @@ class BinSelectionTest extends TestCase
     }
 
     /**
-     * @return array<string, array{array<int|float>, int}>
+     * @return array<string, array{array<float|int>, int}>
      */
     public static function scottDataProvider(): array
     {
@@ -462,8 +465,8 @@ class BinSelectionTest extends TestCase
     /**
      * Tests that Freedman-Diaconis rule returns expected minimum bin counts for various dataset types.
      *
-     * @param array<int|float> $data Test dataset
-     * @param int $expectedMinBins Expected minimum number of bins
+     * @param array<float|int> $data            Test dataset
+     * @param int              $expectedMinBins Expected minimum number of bins
      */
     #[Test]
     #[DataProvider('freedmanDiaconisDataProvider')]
@@ -483,7 +486,7 @@ class BinSelectionTest extends TestCase
     }
 
     /**
-     * @return array<string, array{array<int|float>, int}>
+     * @return array<string, array{array<float|int>, int}>
      */
     public static function freedmanDiaconisDataProvider(): array
     {
